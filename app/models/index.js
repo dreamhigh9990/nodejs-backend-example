@@ -1,23 +1,11 @@
 const config = require("../config/db.config.js");
 
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize(
-  config.DB,
-  config.USER,
-  config.PASSWORD,
-  {
-    host: config.HOST,
-    dialect: config.dialect,
-    operatorsAliases: false,
-
-    pool: {
-      max: config.pool.max,
-      min: config.pool.min,
-      acquire: config.pool.acquire,
-      idle: config.pool.idle
-    }
-  }
-);
+let sequelize = {}
+sequelize = new Sequelize({
+  dialect: "sqlite",
+  storage: "../../database/db.sqlite3"
+});
 
 const db = {};
 
@@ -93,7 +81,7 @@ db.comment.belongsTo(db.article, {
   as: "article",
 });
 
-db.user.hasMany(db.passedTest, {as: "passedtests"});
+db.user.hasMany(db.passedTest, { as: "passedtests" });
 db.passedTest.belongsTo(db.user, {
   foreignKey: "userId",
   as: "user"
@@ -124,7 +112,7 @@ db.dataPurchaseHistory.belongsTo(db.user, {
   as: "user",
 });
 
-db.user.hasMany(db.testPurchaseHistory, {as: "testPurchaseHistories"});
+db.user.hasMany(db.testPurchaseHistory, { as: "testPurchaseHistories" });
 db.testPurchaseHistory.belongsTo(db.user, {
   foreignKey: "userId",
   as: "user"
